@@ -3,6 +3,8 @@ from selenium import webdriver
 import time
 from selenium.webdriver.common.by import By
 import parameters
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 driver = webdriver.Chrome()
 companies_list=[]
 users_list = []
@@ -34,18 +36,24 @@ def login(driver):
     time.sleep(6)
     path=parameters.username+'.pkl'
     save_cookie(driver,path)
-    time.sleep(200)
+    time.sleep(50)
 
 
 def main(driver):
     driver.get("https://www.instagram.com/")
+    time.sleep(3)
+    driver.maximize_window()
     try:
         load_cookie(driver,parameters.username)
     except:
         login(driver)
     driver.get("https://www.instagram.com/")
-    time.sleep(6)
-    main_div = driver.find_element(By.XPATH, '//div[@class="xvb8j5 x1vjfegm"]')
+    time.sleep(5)
+    actions = ActionChains(driver)
+    actions.send_keys(Keys.TAB).perform()
+    actions.send_keys(Keys.RETURN).perform()
+    time.sleep(5)
+    main_div = driver.find_element(By.XPATH, '//div[@class="x1iyjqo2 xh8yej3"]')
 
     butttons=main_div.find_elements(By.XPATH, '//div[@class="x1n2onr6"]')
 
@@ -67,4 +75,3 @@ def main(driver):
 
 
 main(driver)
-# loggin()
